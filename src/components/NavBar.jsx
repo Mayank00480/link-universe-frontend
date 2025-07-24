@@ -2,6 +2,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { removeUser } from "../store/userSlice";
+import { removeFeed } from "../store/feedSlice";
 const NavBar = () => {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -16,6 +17,7 @@ const NavBar = () => {
         }
       );
       dispatch(removeUser());
+      dispatch(removeFeed())
       navigate("/login");
     } catch (err) {
       console.error("Error logging out:", err);
@@ -49,9 +51,6 @@ const NavBar = () => {
                 <Link to="/profile" className="justify-between">
                   Profile
                 </Link>
-              </li>
-              <li>
-                <Link to="">Settings</Link>
               </li>
               <li>
                 <button className="btn mt-5" onClick={handleLogout}>
