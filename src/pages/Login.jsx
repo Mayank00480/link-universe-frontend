@@ -1,10 +1,28 @@
+import axios from "axios";
 import React, { useState } from "react";
-
+import { addUser } from "../store/userSlice";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-
-    const [emailId , setEmailId] = useState("");
-    const [password , setPassword] = useState("");
+  const [emailId, setEmailId] = useState("Mayank@gmail.com");
+  const [password, setPassword] = useState("Mayank@123");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handleLogin = async () => {
+    const response = await axios.post(
+      "http://localhost:3000/login",
+      {
+        emailId: emailId,
+        password: password,
+      },
+      {
+        withCredentials: true,
+      }
+    );
+    dispatch(addUser(response.data.data));
+    navigate("/");
+  };
 
   return (
     <div className="w-full flex justify-center items-center  my-20">
@@ -33,7 +51,9 @@ const Login = () => {
             placeholder="Enter your Password"
           />
         </fieldset>
-        <button className="btn mt-5">Login</button>
+        <button className="btn mt-5" onClick={handleLogin}>
+          Login
+        </button>
       </div>
     </div>
   );
