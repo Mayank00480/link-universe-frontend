@@ -7,21 +7,28 @@ import { useNavigate } from "react-router-dom";
 const Login = () => {
   const [emailId, setEmailId] = useState("Mayank@gmail.com");
   const [password, setPassword] = useState("Mayank@123");
+  const [error, setError] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleLogin = async () => {
-    const response = await axios.post(
-      "http://localhost:3000/login",
-      {
-        emailId: emailId,
-        password: password,
-      },
-      {
-        withCredentials: true,
-      }
-    );
-    dispatch(addUser(response.data.data));
-    navigate("/");
+    try {
+      setError(""); // Reset error state before making the request
+      const response = await axios.post(
+        "http://localhost:3000/login",
+        {
+          emailId: emailId,
+          password: password,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      dispatch(addUser(response.data.data));
+      navigate("/");
+    } catch (err) {
+      setError(err.response?.data?.message || "Login failed. Please try again.");
+      console.error("Error logging in:", err);
+    }
   };
 
   return (
@@ -51,9 +58,16 @@ const Login = () => {
             placeholder="Enter your Password"
           />
         </fieldset>
-        <button className="btn mt-5" onClick={handleLogin}>
-          Login
-        </button>
+        {error && <p  style={{color : "red",fontSize : 15}}>{error}</p>}
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <button
+            className="btn btn-primary mt-5"
+            onClick={handleLogin}
+            style={{ width: "40%" }}
+          >
+            Login
+          </button>
+        </div>
       </div>
     </div>
   );

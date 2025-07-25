@@ -1,7 +1,7 @@
 const FeedCard = ({ feed }) => {
-  const { firstName, photoUrl, skills, _id, age, gender, about, lastName } =
+  const { firstName, photoUrl,  _id, age, gender, about, lastName ,isFeedData = false } =
     feed || {};
-
+  console.log(feed, "FeedCard Data");
   return (
     <div className="card bg-base-300 w-80 shadow-sm">
       {photoUrl && (
@@ -21,17 +21,16 @@ const FeedCard = ({ feed }) => {
             {firstName} {lastName && <h2 className="card-title">{lastName}</h2>}
           </h2>
         )}
-        {skills?.length > 0 && <p>Skills: {skills.join(", ")} </p>}
-        {age && (
+        {age &&  (
           <p>
-            {age} {gender && <p>,{gender}</p>}
+            {age}, {gender}
           </p>
         )}
         {about && <p>{about}</p>}
-        <div className="card-actions justify-center">
+        {isFeedData && <div className="card-actions justify-center">
           <button className="btn btn-secondary">Ignore</button>
           <button className="btn btn-info">Interested</button>
-        </div>
+        </div>}
       </div>
     </div>
   );

@@ -27,7 +27,7 @@ const Feed = () => {
     },[])
 
     return <div className="w-full flex justify-center items-center my-20">
-        {feedData && <FeedCard feed={feedData?.[0]} />}
+        {feedData?.length > 0 && <FeedCard feed={{...feedData?.[0] , isFeedData : true}} />}
     </div>
 }
 export default Feed;
